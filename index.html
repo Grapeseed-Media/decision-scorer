@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Decision Lever Scoring Tool</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>Decision Lever Scoring Tool</h1>
+
+        <table id="score-table">
+            <thead>
+                <tr>
+                    <th>Decision Lever</th>
+                    <th>Importance<br>(1–5)</th>
+                    <th>Current Perf.<br>(1–5)</th>
+                    <th>Weighted Score</th>
+                    <th>Gap</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- JavaScript will populate this -->
+            </tbody>
+            <tfoot>
+                <tr class="totals">
+                    <td><strong>Totals →</strong></td>
+                    <td id="total-importance">0</td>
+                    <td id="total-performance">0</td>
+                    <td></td>
+                    <td id="total-gap">0</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="results-wrapper">
+            <div id="gap-analysis" class="result-text"></div>
+            <button id="reset-button">Reset Form</button>
+        </div>
+
+        <h2>Quick-Reference Scoring Guide</h2>
+        <ul>
+            <li><strong>5</strong>: Industry-leading / no pain points</li>
+            <li><strong>4</strong>: Strong, minor tweaks needed</li>
+            <li><strong>3</strong>: Adequate but improvement visible</li>
+            <li><strong>2</strong>: Below average; hampers results</li>
+            <li><strong>1</strong>: Serious blocker / frequent issues</li>
+        </ul>
+
+        <h2>Interpreting Your Results</h2>
+        <ul>
+            <li><strong>Gaps ≤ 20</strong>: Aligned with priorities</li>
+            <li><strong>21–35</strong>: Mixed fit – target weak spots</li>
+            <li><strong>&gt; 35</strong>: Major misalignment – consider structural changes</li>
+        </ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
