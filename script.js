@@ -10,7 +10,7 @@ const levers = [
 
 const tbody = document.getElementById("table-body");
 
-// Create table rows and inputs
+// table rows and inputs
 levers.forEach(lever => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -23,7 +23,7 @@ levers.forEach(lever => {
     tbody.appendChild(row);
 });
 
-// Attach input event listeners after DOM is built
+// input event listeners post DOM
 document.querySelectorAll('.importance, .performance').forEach(input => {
     input.addEventListener('input', recalculate);
 });
@@ -41,11 +41,11 @@ function recalculate() {
         const imp = parseFloat(impInput.value);
         const perf = parseFloat(perfInput.value);
 
-        // Reset validation state
+        // Reset validation 
         impInput.classList.remove("error");
         perfInput.classList.remove("error");
 
-        // Validation
+        // validation
         if (isNaN(imp) || isNaN(perf)) {
             allFilled = false;
             return;
@@ -77,26 +77,57 @@ function recalculate() {
     document.getElementById("total-gap").textContent = totalGap.toFixed(1);
 
     const resultText = document.getElementById("gap-analysis");
-    resultText.className = "result-text"; // Reset any previous styles
+    resultText.className = "result-text";
 
     if (!allFilled || !valid) {
         resultText.textContent = "";
         return;
     }
 
-    if (totalGap <= 20) {
-        resultText.textContent = "Aligned with priorities";
+    let message = "";
+    if (totalGap <= 10) {
         resultText.classList.add("green");
-    } else if (totalGap <= 35) {
-        resultText.textContent = "Mixed fit – target weak spots";
+        message = `<strong>🚀 Optimized</strong><br>
+    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+      <li>Your operating model is tightly aligned to priorities.</li>
+      <li>Keep current model; revisit every 6 mos.</li>
+    </ul>`;
+    } else if (totalGap <= 20) {
+        resultText.classList.add("green");
+        message = `<strong>🟢 Healthy</strong><br>
+    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+      <li>Minor frictions exist but aren’t blocking growth.</li>
+      <li>Tackle top 1–2 gaps with quick wins.</li>
+    </ul>`;
+    } else if (totalGap <= 30) {
+        resultText.classList.add("yellow");
+        message = `<strong>🟡 Mixed Fit</strong><br>
+    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+      <li>Clear friction points are reducing ROI.</li>
+      <li>Pilot a partner or tool to close biggest gap.</li>
+    </ul>`;
+    } else if (totalGap <= 40) {
         resultText.classList.add("orange");
+        message = `<strong>🟠 Strained</strong><br>
+    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+      <li>Misalignment is shaving margin / slowing scale.</li>
+      <li>Build a 90-day improvement plan or test a hybrid partner.</li>
+    </ul>`;
     } else {
-        resultText.textContent = "Major misalignment – consider structural changes";
         resultText.classList.add("red");
+        message = `<strong>🔴 Critical</strong><br>
+    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+      <li>Model is costing money, time, or performance.</li>
+      <li>Fast-track a structural change (switch provider or in-house build).</li>
+    </ul>`;
     }
+
+    resultText.innerHTML = message;
+
 }
 
-// Reset button clears everything
+
+// Reset button 
 document.getElementById("reset-button").addEventListener("click", () => {
     document.querySelectorAll("#table-body input").forEach(input => {
         input.value = "";
