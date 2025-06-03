@@ -14,12 +14,10 @@ const tbody = document.getElementById("table-body");
 levers.forEach(lever => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${lever}</td>
-      <td><input type="number" min="0" max="5" class="importance" /></td>
-      <td><input type="number" min="0" max="5" class="performance" /></td>
-      <td><input type="text" class="weighted" readonly /></td>
-      <td><input type="text" class="gap" readonly /></td>
-    `;
+    <td>${lever}</td>
+    <td><input type="number" min="0" max="5" class="importance" /></td>
+    <td><input type="number" min="0" max="5" class="performance" /></td>
+  `;
     tbody.appendChild(row);
 });
 
@@ -64,9 +62,6 @@ function recalculate() {
         const weighted = imp * perf;
         const gap = (imp * 5) - weighted;
 
-        row.querySelector(".weighted").value = weighted.toFixed(1);
-        row.querySelector(".gap").value = gap.toFixed(1);
-
         totalImportance += imp;
         totalPerformance += perf;
         totalGap += gap;
@@ -74,7 +69,6 @@ function recalculate() {
 
     document.getElementById("total-importance").textContent = totalImportance.toFixed(1);
     document.getElementById("total-performance").textContent = totalPerformance.toFixed(1);
-    document.getElementById("total-gap").textContent = totalGap.toFixed(1);
 
     const resultText = document.getElementById("gap-analysis");
     resultText.className = "result-text";
@@ -84,48 +78,47 @@ function recalculate() {
         return;
     }
 
-    let message = "";
+    let message = `<strong>Gap Total: ${totalGap.toFixed(1)}</strong><br>`;
+
     if (totalGap <= 10) {
         resultText.classList.add("green");
-        message = `<strong>🚀 Optimized</strong><br>
-    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
-      <li>Your operating model is tightly aligned to priorities.</li>
-      <li>Keep current model; revisit every 6 mos.</li>
-    </ul>`;
+        message += `<strong>🚀 Optimized</strong><br>
+        <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+          <li>Your operating model is tightly aligned to priorities.</li>
+          <li>Keep current model; revisit every 6 mos.</li>
+        </ul>`;
     } else if (totalGap <= 20) {
         resultText.classList.add("green");
-        message = `<strong>🟢 Healthy</strong><br>
-    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
-      <li>Minor frictions exist but aren’t blocking growth.</li>
-      <li>Tackle top 1–2 gaps with quick wins.</li>
-    </ul>`;
+        message += `<strong>🟢 Healthy</strong><br>
+        <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+          <li>Minor frictions exist but aren’t blocking growth.</li>
+          <li>Tackle top 1–2 gaps with quick wins.</li>
+        </ul>`;
     } else if (totalGap <= 30) {
         resultText.classList.add("yellow");
-        message = `<strong>🟡 Mixed Fit</strong><br>
-    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
-      <li>Clear friction points are reducing ROI.</li>
-      <li>Pilot a partner or tool to close biggest gap.</li>
-    </ul>`;
+        message += `<strong>🟡 Mixed Fit</strong><br>
+        <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+          <li>Clear friction points are reducing ROI.</li>
+          <li>Pilot a partner or tool to close biggest gap.</li>
+        </ul>`;
     } else if (totalGap <= 40) {
         resultText.classList.add("orange");
-        message = `<strong>🟠 Strained</strong><br>
-    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
-      <li>Misalignment is shaving margin / slowing scale.</li>
-      <li>Build a 90-day improvement plan or test a hybrid partner.</li>
-    </ul>`;
+        message += `<strong>🟠 Strained</strong><br>
+        <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+          <li>Misalignment is shaving margin / slowing scale.</li>
+          <li>Build a 90-day improvement plan or test a hybrid partner.</li>
+        </ul>`;
     } else {
         resultText.classList.add("red");
-        message = `<strong>🔴 Critical</strong><br>
-    <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
-      <li>Model is costing money, time, or performance.</li>
-      <li>Fast-track a structural change (switch provider or in-house build).</li>
-    </ul>`;
+        message += `<strong>🔴 Critical</strong><br>
+        <ul style="list-style: disc; text-align: left; display: inline-block; margin: 0; padding-left: 20px;">
+          <li>Model is costing money, time, or performance.</li>
+          <li>Fast-track a structural change (switch provider or in-house build).</li>
+        </ul>`;
     }
 
     resultText.innerHTML = message;
-
 }
-
 
 // Reset button 
 document.getElementById("reset-button").addEventListener("click", () => {
@@ -135,6 +128,5 @@ document.getElementById("reset-button").addEventListener("click", () => {
     });
     document.getElementById("total-importance").textContent = "0";
     document.getElementById("total-performance").textContent = "0";
-    document.getElementById("total-gap").textContent = "0";
     document.getElementById("gap-analysis").textContent = "";
 });
