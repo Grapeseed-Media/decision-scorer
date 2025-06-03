@@ -67,9 +67,6 @@ function recalculate() {
         totalGap += gap;
     });
 
-    document.getElementById("total-importance").textContent = totalImportance.toFixed(1);
-    document.getElementById("total-performance").textContent = totalPerformance.toFixed(1);
-
     const resultText = document.getElementById("gap-analysis");
     resultText.className = "result-text";
 
@@ -78,7 +75,8 @@ function recalculate() {
         return;
     }
 
-    let message = `<strong>Gap Total: ${totalGap.toFixed(1)}</strong><br>`;
+    let message = "";
+    document.getElementById("total-gap").textContent = totalGap.toFixed(0);
 
     if (totalGap <= 10) {
         resultText.classList.add("green");
@@ -126,7 +124,6 @@ document.getElementById("reset-button").addEventListener("click", () => {
         input.value = "";
         input.classList.remove("error");
     });
-    document.getElementById("total-importance").textContent = "0";
-    document.getElementById("total-performance").textContent = "0";
+    document.getElementById("total-gap").textContent = "0";
     document.getElementById("gap-analysis").textContent = "";
 });
